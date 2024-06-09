@@ -1,0 +1,54 @@
+- name: "Test endpoint with valid API key"
+  description: "Test GET /planetary/apod with a valid API key"
+  method: GET
+  path: /planetary/apod
+  query: "api_key={{$API_KEY}}"
+
+  headers:
+    Content-Type: application/json
+
+  response:
+    200: |
+      {
+        "date": "$matchRegexp(^\\d{4}-\\d{2}-\\d{2}$)",
+        "explanation": "$matchRegexp(^.*$)",
+        "hdurl": "$matchRegexp(^https?://[\\w.-]+/.*$)",
+        "service_version": "v1",
+        "media_type": "$matchRegexp(^image$|^video$)",
+        "title": "$matchRegexp(^.*$)",
+        "url": "$matchRegexp(^https?://[\\w.-]+/.*$)"
+      }
+
+- name: "Test APOD endpoint with missing API key"
+  description: "Test GET /planetary/apod with a missing API key"
+  method: GET
+  path: "/planetary/apod"
+
+  headers:
+    Content-Type: application/json
+
+  response:
+    403: >
+      {
+        "error": {
+          "code": "API_KEY_MISSING",
+          "message": "No api_key was supplied. Get one at https://api.nasa.gov:443"
+        }
+      }
+
+- name: "Test APOD endpoint with invalid API key"
+  description: "Test GET /planetary/apod with an invalid API key"
+  method: GET
+  path: "/planetary/apod"
+  query: "api_key={{$API_KEY_RANDOM}}"
+  headers:
+    Content-Type: application/json
+  response:
+    403: >
+      {
+        "error": {
+          "code": "API_KEY_INVALID",
+          "message": "An invalid api_key was supplied. Get one at https://api.nasa.gov:443"
+        }
+      }
+      

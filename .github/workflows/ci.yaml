@@ -1,0 +1,23 @@
+name: Automated API tests
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4.1.6
+
+    - name: Set up Go
+      uses: actions/setup-go@v5.0.1
+      with:
+        go-version: '1.22.4'
+
+    - name: Install dependencies
+      run: go mod tidy
+
+    - name: Run tests
+      run: gonkey -tests=. -host=https://api.nasa.gov/ -v

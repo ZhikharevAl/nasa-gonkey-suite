@@ -1,0 +1,55 @@
+
+- name: "Test APOD endpoint with lower boundary date"
+  description: "Test GET /planetary/apod with lower boundary date"
+  method: "GET"
+  path: "/planetary/apod"
+  query: "api_key={{$API_KEY}}&date=1995-06-16"
+  headers:
+    Content-Type: application/json
+  response:
+    200: >
+      {
+        "date": "1995-06-16"
+      }
+
+- name: "Test APOD endpoint with minimal data"
+  description: "Test GET /planetary/apod with minimal data"
+  method: GET
+  path: "/planetary/apod"
+  query: "api_key={{$API_KEY}}&date=1995-06-15"
+  headers:
+    Content-Type: application/json
+  response:
+    400: >
+      {
+        "msg": "$matchRegexp(^Date must be between Jun 16, 1995 and*)",
+        "service_version": "v1"
+      }
+
+- name: "Test APOD endpoint with no data available for date"
+  description: "Test GET /planetary/apod with no data available for date"
+  method: "GET"
+  path: "/planetary/apod"
+  query: "api_key={{$API_KEY}}&date=1995-06-17"
+  headers:
+    Content-Type: application/json
+  response:
+    404: >
+      {
+        "msg": "$matchRegexp(^No data available for date:*)",
+        "service_version": "v1"
+      }
+
+- name: "Test APOD endpoint with upper boundary date"
+  description: "Test GET /planetary/apod with upper boundary date"
+  method: "GET"
+  path: "/planetary/apod"
+  query: "api_key={{$API_KEY}}&date=2222-06-17"
+  headers:
+    Content-Type: application/json
+  response:
+    400: >
+      {
+        "msg": "$matchRegexp(^Date must be between Jun 16, 1995 and*)",
+        "service_version": "v1"
+      }
