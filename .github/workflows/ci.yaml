@@ -19,6 +19,7 @@ jobs:
     - name: Install dependencies
       run: go mod tidy
 
+
     - name: Install Gonkey
       run: go install github.com/lamoda/gonkey@latest
 
