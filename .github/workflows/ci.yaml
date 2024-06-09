@@ -24,3 +24,5 @@ jobs:
 
     - name: Run tests
       run: gonkey -tests=./gonkey/tests -host=https://api.nasa.gov/ -v
+      env:
+        API_KEY: ${{ secrets.API_KEY }}
