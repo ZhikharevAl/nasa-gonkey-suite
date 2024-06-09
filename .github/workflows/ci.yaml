@@ -23,4 +23,4 @@ jobs:
       run: go install github.com/lamoda/gonkey@latest
 
     - name: Run tests
-      run: gonkey -tests=. -host=https://api.nasa.gov/ -v
+      run: gonkey -tests=./gonkey/tests -host=https://api.nasa.gov/ -v
