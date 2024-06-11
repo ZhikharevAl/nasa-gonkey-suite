@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  api-tests:
+    build: .
+    environment:
+      - API_KEY=${API_KEY}
+    volumes:
+      - ./allure-results:/app/allure-results
