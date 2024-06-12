@@ -1,0 +1,1 @@
+Body: {"code":400,"msg":"Bad Request: invalid field combination passed. Allowed request fields for apod method are 'concept_tags', 'date', 'hd', 'count', 'start_date', 'end_date', 'thumbs'","service_version":"v1"}
