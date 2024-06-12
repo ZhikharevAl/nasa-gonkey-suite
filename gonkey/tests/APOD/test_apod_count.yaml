@@ -1,0 +1,118 @@
+- name: WHEN the APOD endpoint is tested with a valid count MUST successfully response
+  description:
+    Test the APOD endpoint using a valid count parameter to ensure the correct number
+    of images are returned from https://api.nasa.gov/planetary/apod
+  method: GET
+  path: /planetary/apod
+  query: "api_key={{$API_KEY}}&count=1"
+  headers:
+    Content-Type: application/json
+  response:
+    200: >
+      [{}]
+
+- name: WHEN the APOD endpoint is tested with count=0 MUST response with an error
+  description:
+    Test the APOD endpoint with count=0 to verify the service returns an appropriate
+    response or error from https://api.nasa.gov/planetary/apod
+  method: GET
+  path: /planetary/apod
+  query: "api_key={{$API_KEY}}&count=0"
+  headers:
+    Content-Type: application/json
+  response:
+    400: >
+      {
+          "msg": "Count must be positive and cannot exceed 100",
+          "service_version": "v1"
+      }
+
+- name: WHEN the APOD endpoint is tested with negative count MUST response with an error
+  description:
+    Test the APOD endpoint with a negative count to ensure the service returns an
+    appropriate error from https://api.nasa.gov/planetary/apod
+  method: GET
+  path: /planetary/apod
+  query: "api_key={{$API_KEY}}&count=-1"
+  headers:
+    Content-Type: application/json
+  response:
+    400: >
+      {
+          "msg": "Count must be positive and cannot exceed 100",
+          "service_version": "v1"
+      }
+
+- name: WHEN the APOD endpoint is tested with a bigger count MUST response with an error
+  description:
+    Test the APOD endpoint with a bigger count to ensure the service returns an
+    appropriate error from https://api.nasa.gov/planetary/apod
+  method: GET
+  path: /planetary/apod
+  query: "api_key={{$API_KEY}}&count=101"
+  headers:
+    Content-Type: application/json
+  response:
+    400: >
+      {
+          "msg": "Count must be positive and cannot exceed 100",
+          "service_version": "v1"
+      }
+
+- name: WHEN the APOD endpoint is tested with a large count MUST successfully response
+  description:
+    Test the APOD endpoint with a large count to verify the service can handle large
+    number of   requests from https://api.nasa.gov/planetary/apod
+  method: GET
+  path: /planetary/apod
+  query: "api_key={{$API_KEY}}&count=100"
+  headers:
+    Content-Type: application/json
+  response:
+    200: >
+      [
+      {}, {}, {}, {}, {}, {}, {}, {}, {}, {},
+      {}, {}, {}, {}, {}, {}, {}, {}, {}, {},
+      {}, {}, {}, {}, {}, {}, {}, {}, {}, {},
+      {}, {}, {}, {}, {}, {}, {}, {}, {}, {},
+      {}, {}, {}, {}, {}, {}, {}, {}, {}, {},
+      {}, {}, {}, {}, {}, {}, {}, {}, {}, {},
+      {}, {}, {}, {}, {}, {}, {}, {}, {}, {},
+      {}, {}, {}, {}, {}, {}, {}, {}, {}, {},
+      {}, {}, {}, {}, {}, {}, {}, {}, {}, {},
+      {}, {}, {}, {}, {}, {}, {}, {}, {}, {}
+      ]
+
+- name: WHEN the APOD endpoint is tested with count and date MUST response with an error
+  description:
+    Test the APOD endpoint with both count and date parameters to ensure the
+    service returns an error from https://api.nasa.gov/planetary/apod
+  method: GET
+  path: /planetary/apod
+  query: "api_key={{$API_KEY}}&count=5&date=2021-01-01"
+  headers:
+    Content-Type: application/json
+  response:
+    400: |
+      {
+        "msg": "$matchRegexp(.*('concept_tags'|'date'|'hd'|'count'|'start_date'|'end_date'|'thumbs').*)",
+        "service_version": "v1"
+      }
+
+- name:
+    WHEN the APOD endpoint is tested with count and start_date/end_date MUST response with
+    an error
+  description:
+    Test the APOD endpoint with count, start_date, and end_date parameters to ensure
+    the service returns an error from https://api.nasa.gov/planetary/apod
+  method: GET
+  path: /planetary/apod
+  query: "api_key={{$API_KEY}}&count=5&start_date=1995-06-16&end_date=1995-06-15"
+  headers:
+    Content-Type: application/json
+  response:
+    400: >
+      {
+        "msg": "$matchRegexp(.*('concept_tags'|'date'|'hd'|'count'|'start_date'|'end_date'|'thumbs').*)",
+        "service_version": "v1"
+      }

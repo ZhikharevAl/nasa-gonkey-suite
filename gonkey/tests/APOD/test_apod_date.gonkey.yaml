@@ -1,6 +1,7 @@
-
-- name: "Test APOD endpoint with lower boundary date"
-  description: "Test GET /planetary/apod with lower boundary date"
+- name: WHEN the APOD endpoint is tested with a lower boundary date MUST successfully response
+  description:
+    Test the APOD endpoint with the earliest valid date to ensure it returns a
+    successful response from https://api.nasa.gov/planetary/apod
   method: "GET"
   path: "/planetary/apod"
   query: "api_key={{$API_KEY}}&date=1995-06-16"
@@ -12,8 +13,10 @@
         "date": "1995-06-16"
       }
 
-- name: "Test APOD endpoint with minimal data"
-  description: "Test GET /planetary/apod with minimal data"
+- name: WHEN the APOD endpoint is tested with less minimal data MUST response with an error
+  description:
+    Test the APOD endpoint with a date prior to the earliest valid date to confirm
+    that the service returns an appropriate error from https://api.nasa.gov/planetary/apod
   method: GET
   path: "/planetary/apod"
   query: "api_key={{$API_KEY}}&date=1995-06-15"
@@ -26,8 +29,12 @@
         "service_version": "v1"
       }
 
-- name: "Test APOD endpoint with no data available for date"
-  description: "Test GET /planetary/apod with no data available for date"
+- name:
+    WHEN the APOD endpoint is tested with no data available for a date MUST response
+    with an error
+  description:
+    Test the APOD endpoint with a date for which no data is available to verify that
+    the service returns an error from https://api.nasa.gov/planetary/apod
   method: "GET"
   path: "/planetary/apod"
   query: "api_key={{$API_KEY}}&date=1995-06-17"
@@ -40,8 +47,12 @@
         "service_version": "v1"
       }
 
-- name: "Test APOD endpoint with upper boundary date"
-  description: "Test GET /planetary/apod with upper boundary date"
+- name:
+    WHEN the APOD endpoint is tested with an upper boundary date MUST response with
+    an error
+  description:
+    Test the APOD endpoint with a future date to ensure that the service returns an
+    appropriate error from https://api.nasa.gov/planetary/apod
   method: "GET"
   path: "/planetary/apod"
   query: "api_key={{$API_KEY}}&date=2222-06-17"
