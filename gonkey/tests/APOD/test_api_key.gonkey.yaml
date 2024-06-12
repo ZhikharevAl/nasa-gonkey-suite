@@ -1,5 +1,7 @@
-- name: "Test endpoint with valid API key"
-  description: "Test GET /planetary/apod with a valid API key"
+- name: WHEN the APOD endpoint is tested with a valid API key MUST successfully response
+  description:
+    Test the APOD endpoint using a valid API key to ensure a successful response from
+    https://api.nasa.gov/planetary/apod
   method: GET
   path: /planetary/apod
   query: "api_key={{$API_KEY}}"
@@ -19,8 +21,10 @@
         "url": "$matchRegexp(^https?://[\\w.-]+/.*$)"
       }
 
-- name: "Test APOD endpoint with missing API key"
-  description: "Test GET /planetary/apod with a missing API key"
+- name: WHEN the APOD endpoint is tested with a missing API key MUST response with an error
+  description:
+    Test the APOD endpoint without providing an API key to verify that the service
+    returns an error as expected from https://api.nasa.gov/planetary/apod
   method: GET
   path: "/planetary/apod"
 
@@ -36,8 +40,10 @@
         }
       }
 
-- name: "Test APOD endpoint with invalid API key"
-  description: "Test GET /planetary/apod with an invalid API key"
+- name: "WHEN the APOD endpoint is tested with an invalid API key MUST response with an error"
+  description:
+    Test the APOD endpoint using an invalid API key to check that the service correctly
+    returns an error from https://api.nasa.gov/planetary/apod
   method: GET
   path: "/planetary/apod"
   query: "api_key={{$API_KEY_RANDOM}}"
@@ -51,4 +57,3 @@
           "message": "An invalid api_key was supplied. Get one at https://api.nasa.gov:443"
         }
       }
-      
