@@ -1,0 +1,129 @@
+- name:
+    WHEN an APOD endpoint with the correct `start_date` IS requested, IT SHOULD return
+    successfully
+  description:
+    Test the APOD endpoint with the correct `start_date` to ensure it returns a
+    successful response from https://api.nasa.gov/planetary/apod
+  TO DO: it falls at the onset of a new day
+  method: GET
+  path: /planetary/apod
+  query: "api_key={{$API_KEY}}&start_date=2024-06-10"
+  headers:
+    Content-Type: application/json
+  response:
+    200: >
+      [{}, {}, {}, {}]
+
+- name:
+    WHEN an APOD endpoint with the incorrect `start_date` IS requested, IT SHOULD return
+    an error
+  description:
+    Test the APOD endpoint with the incorrect `start_date` to ensure it returns an
+    error response from https://api.nasa.gov/planetary/apod
+  method: GET
+  path: /planetary/apod
+  query: "api_key={{$API_KEY}}&start_date=2224-06-11"
+  headers:
+    Content-Type: application/json
+
+  response:
+    400: >
+      {
+        "msg": "Date must be between Jun 16, 1995 and Jun 13, 2024.",
+        "service_version": "v1"
+      }
+
+- name:
+    WHEN an APOD endpoint with the incorrect `start_date` IS requested, IT SHOULD return
+    an error
+  description:
+    Test the APOD endpoint with the incorrect `start_date` to ensure it returns an
+    error response from https://api.nasa.gov/planetary/apod
+  method: GET
+  path: /planetary/apod
+  query: "api_key={{$API_KEY}}&start_date=1995-06-15"
+  headers:
+    Content-Type: application/json
+
+  response:
+    400: >
+      {
+        "msg": "Date must be between Jun 16, 1995 and Jun 13, 2024.",
+        "service_version": "v1"
+      }
+
+- name:
+    WHEN an APOD endpoint with the correct `start_date` and correct `date` IS requested, IT SHOULD return
+    an error
+  description:
+    Test the APOD endpoint with the incorrect `start_date` to ensure it returns an
+    error response from https://api.nasa.gov/planetary/apod
+  method: GET
+  path: /planetary/apod
+  query: "api_key={{$API_KEY}}&date=2024-06-13&start_date=2024-06-13"
+  headers:
+    Content-Type: application/json
+
+  response:
+    400: |
+      {
+        "msg": "$matchRegexp(.*('concept_tags'|'date'|'hd'|'count'|'start_date'|'end_date'|'thumbs').*)",
+        "service_version": "v1"
+      }
+
+- name:
+    WHEN an APOD endpoint with the correct `start_date` and incorrect `date` IS requested, IT SHOULD return
+    an error
+  description:
+    Test the APOD endpoint with the incorrect `start_date` to ensure it returns an
+    error response from https://api.nasa.gov/planetary/apod
+  method: GET
+  path: /planetary/apod
+  query: "api_key={{$API_KEY}}&date=1995-06-15&start_date=2024-06-13"
+  headers:
+    Content-Type: application/json
+
+  response:
+    400: |
+      {
+        "msg": "$matchRegexp(.*('concept_tags'|'date'|'hd'|'count'|'start_date'|'end_date'|'thumbs').*)",
+        "service_version": "v1"
+      }
+
+- name:
+    WHEN an APOD endpoint with the incorrect `start_date` and correct `date` IS requested, IT SHOULD return
+    an error
+  description:
+    Test the APOD endpoint with the incorrect `start_date` to ensure it returns an
+    error response from https://api.nasa.gov/planetary/apod
+  method: GET
+  path: /planetary/apod
+  query: "api_key={{$API_KEY}}&date=2024-06-13&start_date=1995-06-15"
+  headers:
+    Content-Type: application/json
+
+  response:
+    400: |
+      {
+        "msg": "$matchRegexp(.*('concept_tags'|'date'|'hd'|'count'|'start_date'|'end_date'|'thumbs').*)",
+        "service_version": "v1"
+      }
+
+- name:
+    WHEN an APOD endpoint with the incorrect `start_date` and incorrect `date` IS requested, IT SHOULD return
+    an error
+  description:
+    Test the APOD endpoint with the incorrect `start_date` to ensure it returns an
+    error response from https://api.nasa.gov/planetary/apod
+  method: GET
+  path: /planetary/apod
+  query: "api_key={{$API_KEY}}&date=1995-06-13&start_date=1995-06-15"
+  headers:
+    Content-Type: application/json
+
+  response:
+    400: |
+      {
+        "msg": "$matchRegexp(.*('concept_tags'|'date'|'hd'|'count'|'start_date'|'end_date'|'thumbs').*)",
+        "service_version": "v1"
+      }
