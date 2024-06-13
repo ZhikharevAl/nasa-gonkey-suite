@@ -1,0 +1,59 @@
+- name:
+    "WHEN an APOD endpoint with `thumbs=true` IS requested, AND the APOD is a video,
+    IT SHOULD return the video thumbnail URL"
+  description:
+    "Test the APOD endpoint with `thumbs=true` to ensure it returns the video
+    thumbnail URL if the APOD is a video."
+  method: GET
+  path: /planetary/apod
+  query: "api_key={{$API_KEY}}&thumbs=true&date=2024-06-02"
+  headers:
+    Content-Type: application/json
+  response:
+    200: >
+      {
+       "thumbnail_url": "https://img.youtube.com/vi/sNUNB6CMnE8/0.jpg"
+      }
+
+- name:
+    "WHEN an APOD endpoint with `thumbs=true` IS requested, AND the APOD is not a video,
+    IT SHOULD ignore the `thumbs` parameter"
+  description:
+    "Test the APOD endpoint with `thumbs=true` to ensure it ignores the parameter
+    if the APOD is not a video."
+  method: GET
+  path: /planetary/apod
+  query: "api_key={{$API_KEY}}&thumbs=true&date=2023-06-02"
+  headers:
+    Content-Type: application/json
+  response:
+    200: |
+      {
+        "date": "$matchRegexp(^\\d{4}-\\d{2}-\\d{2}$)",
+        "explanation": "$matchRegexp(^.*$)",
+        "hdurl": "$matchRegexp(^https?://[\\w.-]+/.*$)",
+        "service_version": "v1",
+        "media_type": "$matchRegexp(^image$|^video$)",
+        "title": "$matchRegexp(^.*$)",
+        "url": "$matchRegexp(^https?://[\\w.-]+/.*$)"
+      }
+
+- name: "WHEN an APOD endpoint with `thumbs=false` IS requested, IT SHOULD return normally"
+  description:
+    "Test the APOD endpoint with `thumbs=false` to ensure it returns normally
+    regardless of the APOD type."
+  method: GET
+  path: /planetary/apod
+  query: "api_key={{$API_KEY}}&thumbs=false&date=2024-06-02"
+  headers:
+    Content-Type: application/json
+  response:
+    200: |
+      {
+        "date": "$matchRegexp(^\\d{4}-\\d{2}-\\d{2}$)",
+        "explanation": "$matchRegexp(^.*$)",
+        "service_version": "v1",
+        "media_type": "$matchRegexp(^image$|^video$)",
+        "title": "$matchRegexp(^.*$)",
+        "url": "$matchRegexp(^https?://[\\w.-]+/.*$)"
+      }
