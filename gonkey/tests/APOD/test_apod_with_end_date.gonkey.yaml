@@ -1,0 +1,66 @@
+- name:
+    "WHEN an APOD endpoint with the correct `end_date` IS requested, IT SHOULD
+    return successfully"
+  description:
+    "Test the APOD endpoint with the correct `end_date` to ensure it returns a
+    successful response."
+  method: GET
+  path: /planetary/apod
+  query: "api_key={{$API_KEY}}&start_date=2023-01-01&end_date=2023-01-02"
+  headers:
+    Content-Type: application/json
+  response:
+    200: >
+      [{},{}]
+
+- name:
+    "WHEN an APOD endpoint with the `end_date` before `start_date` IS requested,
+    IT SHOULD return a 400 Bad Request"
+  description:
+    "Test the APOD endpoint with an `end_date` before the `start_date` to ensure
+    it returns a 400 Bad Request."
+  method: GET
+  path: /planetary/apod
+  query: "api_key={{$API_KEY}}&start_date=2023-01-31&end_date=2023-01-01"
+  headers:
+    Content-Type: application/json
+  response:
+    400: >
+      {
+        "msg": "start_date cannot be after end_date",
+        "service_version": "v1"
+      }
+
+- name:
+    "WHEN an APOD endpoint with an `end_date` equal to `start_date` IS requested,
+    IT SHOULD return successfully"
+  description:
+    "Test the APOD endpoint with an `end_date` equal to `start_date` to ensure
+    it returns a successful response."
+  method: GET
+  path: /planetary/apod
+  query: "api_key={{$API_KEY}}&start_date=2023-01-01&end_date=2023-01-01"
+  headers:
+    Content-Type: application/json
+  response:
+    200: >
+      [{}]
+
+- name:
+    "WHEN an APOD endpoint with a future `end_date` IS requested, IT SHOULD return
+    successfully"
+  description:
+    "Test the APOD endpoint with a future `end_date` to ensure it returns a
+    successful response."
+  method: GET
+  path: /planetary/apod
+  query: "api_key={{$API_KEY}}&start_date=2023-01-01&end_date=2100-01-01"
+  headers:
+    Content-Type: application/json
+
+  response:
+    400: >
+      {
+        "msg": "$matchRegexp(^Date must be between Jun 16, 1995 and*)",
+        "service_version": "v1"
+      }
