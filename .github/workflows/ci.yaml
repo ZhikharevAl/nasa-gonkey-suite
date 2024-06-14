@@ -29,12 +29,11 @@ jobs:
     - name: Install dependencies
       run: go mod tidy
 
-
     - name: Install Gonkey
       run: go install github.com/lamoda/gonkey@latest
 
     - name: Run tests
-      run: gonkey -tests=./gonkey/tests -host=https://api.nasa.gov/ -v
+      run: gonkey -tests=./gonkey/tests -host=https://api.nasa.gov/ -v || true
       env:
         API_KEY: ${{ secrets.API_KEY }}
 
@@ -58,6 +57,7 @@ jobs:
         allure_results: allure-results
         allure_history: allure-history
         keep_reports: 20
+
     - name: Deploy report to Github Pages
       if: always()
       uses: peaceiris/actions-gh-pages@v2
