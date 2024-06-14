@@ -33,7 +33,7 @@ jobs:
       run: go install github.com/lamoda/gonkey@latest
 
     - name: Run tests
-      run: gonkey -tests=./gonkey/tests -host=https://api.nasa.gov/ -v || true
+      run: gonkey -tests=./gonkey/tests -host=https://api.nasa.gov/ -v
       env:
         API_KEY: ${{ secrets.API_KEY }}
 
