@@ -6,7 +6,6 @@
     successful response from https://api.nasa.gov/planetary/apod
   TO DO: it falls at the onset of a new day
   method: GET
-  status: "skipped"
   path: /planetary/apod
   query: "api_key={{$API_KEY}}&start_date=2024-06-10"
   headers:
