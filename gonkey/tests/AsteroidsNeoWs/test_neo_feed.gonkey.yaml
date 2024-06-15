@@ -1,0 +1,16 @@
+- name:
+    WHEN the Neo - Feed endpoint is tested with a valid API key and date range MUST
+    successfully respond
+  description:
+    Test the Neo - Feed endpoint using a valid API key and a date range to
+    ensure a successful response from
+    https://api.nasa.gov/neo/rest/v1/feed
+  method: GET
+  path: /neo/rest/v1/feed
+  query: "api_key={{$API_KEY}}&start_date=2024-01-01&end_date=2024-01-08"
+  headers:
+    Content-Type: application/json
+
+  response:
+    200: >
+      {}
