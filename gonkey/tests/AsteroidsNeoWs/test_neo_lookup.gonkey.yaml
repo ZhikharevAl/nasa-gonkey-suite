@@ -1,0 +1,54 @@
+- name:
+    WHEN the Neo - Lookup endpoint is tested with a valid API key and asteroid_id
+    range MUST successfully respond
+  description:
+    Test the Neo - Feed endpoint using a valid API key and a date range to
+    ensure a successful response from
+    https://api.nasa.gov/neo/rest/v1/neo/
+  method: GET
+  path: /neo/rest/v1/neo/2415949
+  query: "api_key={{$API_KEY}}"
+  headers:
+    Content-Type: application/json
+
+  response:
+    200: >
+      {}
+
+- name:
+    WHEN the Neo - Lookup endpoint is tested with a valid API key and with out asteroid_id,
+    IT SHOULD return an error
+  description:
+    Test the Neo - Feed endpoint using a valid API key and a date range to
+    ensure a successful response from
+    https://api.nasa.gov/neo/rest/v1/neo/
+  method: GET
+  path: /neo/rest/v1/neo/
+  query: "api_key={{$API_KEY}}"
+  headers:
+    Content-Type: application/json
+
+  response:
+    404: >
+      {
+        "http_error": "NOT_FOUND",
+        "error_message": null,
+        "request": "http://api.nasa.gov/rest/v1/neo/"
+      }
+
+- name:
+    WHEN the Neo - Lookup endpoint is tested with a valid API key and with invalid asteroid_id,
+    IT SHOULD return an error
+  description:
+    Test the Neo - Feed endpoint using a valid API key and a date range to
+    ensure a successful response from
+    https://api.nasa.gov/neo/rest/v1/neo/
+  method: GET
+  path: /neo/rest/v1/neo/
+  query: "api_key={{$API_KEY}}"
+  headers:
+    Content-Type: application/json
+
+  response:
+    404: >
+      {}
