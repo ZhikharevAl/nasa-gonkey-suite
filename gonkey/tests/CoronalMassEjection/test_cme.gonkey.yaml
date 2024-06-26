@@ -1,0 +1,84 @@
+- name:
+    WHEN the Coronal Mass Ejection endpoint is tested with a valid API key and valid
+    date range MUST successfully respond
+  description: Tests the endpoint with a valid API key and valid date range.
+  method: GET
+  path: /DONKI/CME
+  query: "api_key={{$API_KEY}}&startDate=2016-06-18&endDate=2016-06-19"
+  headers:
+    Content-Type: application/json
+  response:
+    200: |
+      [
+        {
+          "activityID": "$matchRegexp(^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}-CME-\\d{3}$)",
+          "catalog": "$matchRegexp(^[\\w_]+$)",
+          "startTime": "$matchRegexp(^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}Z$)",
+          "sourceLocation": "$matchRegexp(^.*$)",
+          "activeRegionNum": null,
+          "link": "$matchRegexp(^https?://[\\w.-]+/.*$)",
+          "note": "$matchRegexp(^.*$)",
+          "submissionTime": "$matchRegexp(^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}Z$)",
+          "instruments": [
+            {"displayName": "$matchRegexp(^.*$)"},
+            {"displayName": "$matchRegexp(^.*$)"},
+            {"displayName": "$matchRegexp(^.*$)"}
+          ],
+          "cmeAnalyses": [
+            {
+              "isMostAccurate": true,
+              "time21_5": "$matchRegexp(^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}Z$)",
+              "latitude": -29,
+              "longitude": 95,
+              "halfAngle": 25,
+              "speed": 482,
+              "type": "$matchRegexp(^[A-Z]$)",
+              "featureCode": "null",
+              "imageType": null,
+              "measurementTechnique": "null",
+              "note": "$matchRegexp(^.*$)",
+              "levelOfData": "$matchRegexp(^\\d+$)",
+              "tilt": null,
+              "minorHalfWidth": null,
+              "speedMeasuredAtHeight": null,
+              "submissionTime": "$matchRegexp(^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}Z$)",
+              "link": "$matchRegexp(^https?://[\\w.-]+/.*$)",
+              "enlilList": [
+                {
+                  "modelCompletionTime": "$matchRegexp(^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}Z$)",
+                  "au": 2,
+                  "estimatedShockArrivalTime": null,
+                  "estimatedDuration": null,
+                  "rmin_re": null,
+                  "kp_18": null,
+                  "kp_90": null,
+                  "kp_135": null,
+                  "kp_180": null,
+                  "isEarthGB": "$matchRegexp(^true$|^false$)",
+                  "link": "$matchRegexp(^https?://[\\w.-]+/.*$)",
+                  "impactList": null,
+                  "cmeIDs": [
+                    "$matchRegexp(^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}-CME-\\d{3}$)",
+                    "$matchRegexp(^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}-CME-\\d{3}$)",
+                    "$matchRegexp(^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}-CME-\\d{3}$)"
+                  ]
+                }
+              ]
+            }
+          ],
+          "linkedEvents": null
+        }
+      ]
+
+- name:
+    WHEN the Coronal Mass Ejection endpoint is tested with a valid API key and
+    invalid date range MUST return an empty list
+  description: Tests the endpoint with a valid API key and an invalid date range.
+  method: GET
+  path: /DONKI/CME
+  query: "api_key={{$API_KEY}}&startDate=2016-06-18&endDate=2016-06-17"
+  headers:
+    Content-Type: application/json
+  response:
+    200: >
+      []
