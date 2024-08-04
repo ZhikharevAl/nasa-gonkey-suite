@@ -1,0 +1,11 @@
+- name: WHEN the techtransfer endpoint is tested with a valid API key and patent
+    MUST Return a JSON of patents that match the string provided
+  description: Tests the endpoint techtransfer with a valid API key and patent
+  method: GET
+  path: /techtransfer/patent/
+  query: "?engine&api_key={{$API_KEY}}"
+  headers:
+    Content-Type: application/json
+  response:
+    200: >
+      {}
