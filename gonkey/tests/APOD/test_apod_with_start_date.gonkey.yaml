@@ -1,18 +1,20 @@
-# - name:
-#     WHEN an APOD endpoint with the correct `start_date` IS requested, IT SHOULD return
-#     successfully
-#   description:
-#     Test the APOD endpoint with the correct `start_date` to ensure it returns a
-#     successful response from https://api.nasa.gov/planetary/apod
-#   TO DO: it falls at the onset of a new day
-#   method: GET
-#   path: /planetary/apod
-#   query: "api_key={{$API_KEY}}&start_date=2024-06-10"
-#   headers:
-#     Content-Type: application/json
-#   response:
-#     200: >
-#       [{}, {}, {}, {}]
+- name:
+    WHEN an APOD endpoint with the correct `start_date` IS requested, IT SHOULD return
+    a range of dates successfully
+  description:
+    Test the APOD endpoint with the correct `start_date` to ensure it returns a
+    successful response containing a range of dates from https://api.nasa.gov/planetary/apod.
+    The response should include data for each date starting from `start_date` up to the
+    current date.
+  method: GET
+  status: skipped
+  path: /planetary/apod
+  query: "api_key={{$API_KEY}}&start_date=2025-01-30"
+  headers:
+    Content-Type: application/json
+  response:
+    200: >
+      [{}, {}, {}, {}, {}]
 
 - name:
     WHEN an APOD endpoint with the incorrect `start_date` IS requested, IT SHOULD return
